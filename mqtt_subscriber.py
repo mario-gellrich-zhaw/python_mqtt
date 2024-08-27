@@ -7,7 +7,7 @@ warnings.filterwarnings("ignore")
 # IP-Address of broker (Raspberry Pi)
 MQTT_SERVER = "clt-lab-w-1979"
 
-# Topics
+# Topic names
 MQTT_TEMP = "sensor/temp"
 MQTT_HUMI = "sensor/humi"
 MQTT_PRES = "sensor/pres"

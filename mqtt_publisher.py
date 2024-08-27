@@ -4,7 +4,10 @@ import time
 
 sense = SenseHat()
 
-MQTT_SERVER = "127.0.0.1"
+# IP-Address of broker (Raspberry Pi)
+MQTT_SERVER = "clt-lab-w-1979"
+
+# Topic names
 MQTT_TEMP   = "sensor/temp"
 MQTT_HUMI   = "sensor/humi"
 MQTT_PRES   = "sensor/pres"
