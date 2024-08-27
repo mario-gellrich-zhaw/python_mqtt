@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-time Sensor Data from Raspberry Pi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        document.addEventListener('DOMContentLoaded', (event) => {
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+            socket.on('mqtt_message', function(msg) {
+                var content = document.getElementById('content');
+                var p = document.createElement('p');
+                <!-- p.innerHTML = `Received message on topic ${msg.topic}: ${msg.data} (Data type: ${typeof msg.data})`; -->
+                p.innerHTML = `Received message on topic ${msg.topic}: ${msg.data}`;
+                content.appendChild(p);
+            });
+        });
+    </script>
+    <style>
+        body {
+            background-color: rgb(29, 28, 28);
+            color: greenyellow;
+        }
+    </style>
+</head>
+<body>
+    <h1>Real-time Sensor Data from Raspberry Pi</h1>
+    <div id="content"></div>
+</body>
+</html>

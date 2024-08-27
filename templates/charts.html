@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Sensor Data from Raspberry Pi</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js"></script>
+    <style>
+        body {
+            background-color: rgb(29, 28, 28);
+            color: greenyellow;
+        }
+        canvas {
+            background-color: rgb(29, 28, 28);
+        }
+        .chart-container {
+            width: 25%;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <h2>Real-Time Temperature Data</h2>
+        <canvas id="temperatureChart"></canvas>
+        <h2>Real-Time Humidity Data</h2>
+        <canvas id="humidityChart"></canvas>
+        <h2>Real-Time Pressure Data</h2>
+        <canvas id="pressureChart"></canvas>
+    </div>
+
+    <script>
+        const temperatureCtx = document.getElementById('temperatureChart').getContext('2d');
+        const humidityCtx = document.getElementById('humidityChart').getContext('2d');
+        const pressureCtx = document.getElementById('pressureChart').getContext('2d');
+
+        const temperatureChart = new Chart(temperatureCtx, {
+            type: 'line',
+            data: {
+                labels: [], // Time labels will be added dynamically
+                datasets: [{
+                    label: 'Temperature (°C)',
+                    data: [],
+                    fill: false,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: 'greenyellow' // Legend text color
+                        }
+                    },
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Time',
+                            color: 'greenyellow' // X-axis title color
+                        },
+                        ticks: {
+                            color: 'greenyellow' // X-axis labels color
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Temperature (°C)',
+                            color: 'greenyellow' // Y-axis title color
+                        },
+                        ticks: {
+                            color: 'greenyellow' // Y-axis labels color
+                        }
+                    }
+                }
+            }
+        });
+
+        const humidityChart = new Chart(humidityCtx, {
+            type: 'line',
+            data: {
+                labels: [], // Time labels will be added dynamically
+                datasets: [{
+                    label: 'Humidity (%)',
+                    data: [],
+                    fill: false,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: 'greenyellow' // Legend text color
+                        }
+                    },
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Time',
+                            color: 'greenyellow' // X-axis title color
+                        },
+                        ticks: {
+                            color: 'greenyellow' // X-axis labels color
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Humidity (%)',
+                            color: 'greenyellow' // Y-axis title color
+                        },
+                        ticks: {
+                            color: 'greenyellow' // Y-axis labels color
+                        }
+                    }
+                }
+            }
+        });
+
+        const pressureChart = new Chart(pressureCtx, {
+            type: 'line',
+            data: {
+                labels: [], // Time labels will be added dynamically
+                datasets: [{
+                    label: 'Pressure (hPa)',
+                    data: [],
+                    fill: false,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: 'greenyellow' // Legend text color
+                        }
+                    },
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Time',
+                            color: 'greenyellow' // X-axis title color
+                        },
+                        ticks: {
+                            color: 'greenyellow' // X-axis labels color
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Pressure (hPa)',
+                            color: 'greenyellow' // Y-axis title color
+                        },
+                        ticks: {
+                            color: 'greenyellow' // Y-axis labels color
+                        }
+                    }
+                }
+            }
+        });
+
+        // Establish a Socket.IO connection
+        const socket = io();
+
+        // Listen for 'mqtt_message' event
+        socket.on('mqtt_message', function(msg) {
+            const topic = msg.topic;
+            const data = msg.data;
+            const currentTime = new Date().toLocaleTimeString();
+
+            if (topic === "sensor/temp") {
+                // Add new data to the temperature chart
+                temperatureChart.data.labels.push(currentTime);
+                temperatureChart.data.datasets[0].data.push(parseFloat(data));
+
+                // Limit the number of data points displayed (e.g., last 20)
+                if (temperatureChart.data.labels.length > 20) {
+                    temperatureChart.data.labels.shift();
+                    temperatureChart.data.datasets[0].data.shift();
+                }
+
+                // Update the temperature chart
+                temperatureChart.update();
+            } else if (topic === "sensor/humi") {
+                // Add new data to the humidity chart
+                humidityChart.data.labels.push(currentTime);
+                humidityChart.data.datasets[0].data.push(parseFloat(data));
+
+                // Limit the number of data points displayed (e.g., last 20)
+                if (humidityChart.data.labels.length > 20) {
+                    humidityChart.data.labels.shift();
+                    humidityChart.data.datasets[0].data.shift();
+                }
+
+                // Update the humidity chart
+                humidityChart.update();
+            } else if (topic === "sensor/pres") {
+                // Add new data to the pressure chart
+                pressureChart.data.labels.push(currentTime);
+                pressureChart.data.datasets[0].data.push(parseFloat(data));
+
+                // Limit the number of data points displayed (e.g., last 20)
+                if (pressureChart.data.labels.length > 20) {
+                    pressureChart.data.labels.shift();
+                    pressureChart.data.datasets[0].data.shift();
+                }
+
+                // Update the pressure chart
+                pressureChart.update();
+            }
+        });
+    </script>
+</body>
+</html>
