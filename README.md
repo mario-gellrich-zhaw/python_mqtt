@@ -56,10 +56,11 @@ pip install paho-mqtt
 
 # Client PC
 pip install paho-mqtt
+pip install flask-socketio
 ```
 
 ### Usage
-Make sure that the Raspberry Pi and your client PC are in the same network.
+Make sure that the Raspberry Pi and your PC are in the same network.
 
 In VS Code on your PC, open a Terminal and cd into the folder where app.py is located.
 
