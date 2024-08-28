@@ -63,6 +63,14 @@ pip install flask-socketio
 ### Usage
 Make sure that the Raspberry Pi and your PC are in the same network.
 
+On your Raspberry Pi, open a Terminal and execute the publisher.py file.
+
+For this, cd into the folder where publisher.py is located and type:
+
+```bash
+python publisher.py
+```
+
 In VS Code on your PC, open a Terminal and cd into the folder where app.py is located.
 
 Run the following Python command in your VS Code Terminal.
