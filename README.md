@@ -23,15 +23,16 @@ Before you begin, ensure you have the following hardware and software:
 
 - **Hardware:**
   - Raspberry Pi (I use a Pi Model B with 4 GB RAM)
-  - Sense Hat
+  - Sense Hat (add-on board for the Pi with a variety of sensors)
   - Internet connection
   
 - **Software:**
   - Raspbian OS installed on Raspberry Pi
-  - Mosquitto MQTT broker
-  - Python 3.x
-  - paho-mqtt Python library
-  - sense-hat Python library
+  - Mosquitto MQTT broker installed on Raspberry Pi
+  - Python 3.x (Pi & PC)
+  - paho-mqtt Python library (Pi & PC)
+  - sense-hat Python library (Pi)
+  - flask-socketio (PC)
 
 ## Installation
 
