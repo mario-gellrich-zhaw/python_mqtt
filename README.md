@@ -61,7 +61,9 @@ pip install paho-mqtt
 ### Usage
 Make sure that the Raspberry Pi and your client PC are in the same network.
 
-Run the following Python command in your VS Code Terminal of your client PC.
+In VS Code on your PC, open a Terminal and cd into the folder where app.py is located.
+
+Run the following Python command in your VS Code Terminal.
 
 ```bash
 python app.py
