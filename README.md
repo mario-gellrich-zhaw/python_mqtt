@@ -22,7 +22,7 @@ This project showcases how to set up an MQTT broker on a Raspberry Pi using `mos
 Before you begin, ensure you have the following hardware and software:
 
 - **Hardware:**
-  - Raspberry Pi (I use Pi Model B with 4 GB RAM)
+  - Raspberry Pi (I use a Pi Model B with 4 GB RAM)
   - Sense Hat
   - Internet connection
   
