@@ -1,9 +1,10 @@
+jupyter
 flask
 flask-socketio
 langchain-community
 matplotlib
 pandas
 paho-mqtt
-psycopg2
+psycopg2-binary
 pykafka
 sqlalchemy
